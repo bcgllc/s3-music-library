@@ -1,25 +1,39 @@
-require("dotenv").config()
+class S3MusicLibrary {
+  constructor(AWS_S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY) {
+    this.AWS_S3_BUCKET = AWS_S3_BUCKET
+    this.AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+    this.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+    this.AWS = require("aws-sdk")
+    this.AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
+    this.AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
+    this.s3 = new this.AWS.S3()
+    this.data = {}
+  }
 
-const AWS = require("aws-sdk")
+  async fetchData() {
+    const params = {
+      Bucket: this.AWS_S3_BUCKET,
+      MaxKeys: 2147483647
+    }
+    const response = await this.s3.listObjectsV2(params).promise()
+    this.data.raw = response.Contents.filter(datum => !datum.Key.includes("DS_Store"))
+    this.data.urls = this.data.raw.map(datum => datum.Key)
+    this.data.artists = Array.from(new Set(this.data.raw.map(datum => datum.Key.split("/")[0])))
+    this.data.albums = Array.from(new Set(this.data.raw.map(datum => datum.Key.split("/")[1])))
+  }
 
-const {
-  AWS_S3_BUCKET,
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-} = process.env
+  get urls() {
+    return this.data.urls
+  }
 
-AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
-AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
+  get artists() {
+    return this.data.artists
+  }
 
-const s3 = new AWS.S3()
+  get albums() {
+    return this.data.albums
+  }
 
-const params = {
-  Bucket: AWS_S3_BUCKET
 }
 
-s3.listObjectsV2(params, function(err, data) {
-  if (err) console.log(err)
-  else {
-    console.log(this)
-  }
-})
+module.exports = S3MusicLibrary
