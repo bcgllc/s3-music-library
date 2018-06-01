@@ -15,8 +15,8 @@ const s3MusicLibrary = new S3MusicLibrary(
 
 s3MusicLibrary.fetchData()
   .then(() => {
-    // console.log(s3MusicLibrary.store.structuredFormat)
-    // console.log(s3MusicLibrary.store.recordFormat)
+    // console.log(s3MusicLibrary.store.listFormat)
+    // console.log(s3MusicLibrary.store.albumFormat)
     // console.log(s3MusicLibrary.artists)
     // console.log(s3MusicLibrary.albums)
     // console.log(s3MusicLibrary.tracks)  

@@ -22,11 +22,11 @@ class S3MusicLibrary {
 
   initializeStore(response) {
     this.store = {}    
-    this.store.structuredFormat = this.parseStructuredFormat(response)
-    this.store.recordFormat = this.parseRecordFormat()
+    this.store.listFormat = this.parseListFormat(response)
+    this.store.albumFormat = this.parseAlbumFormat()
   }
 
-  parseStructuredFormat(response) {
+  parseListFormat(response) {
     return response.Contents.map(datum => ({
       url: datum.Key,
       artist: datum.Key.split("/")[0],
@@ -38,16 +38,16 @@ class S3MusicLibrary {
     ))
   }
 
-  parseRecordFormat() {
-    const nodesStructuredFormat = this.store.structuredFormat
+  parseAlbumFormat() {
+    const nodesListFormat = this.store.listFormat
     return _
-      .uniqBy(nodesStructuredFormat, structuredNode => structuredNode.album)
-        .map(structuredNode => ({
-          artist: structuredNode.artist,
-          album: structuredNode.album,
-          tracks: nodesStructuredFormat
-            .filter(structuredNode2 => {
-              return structuredNode.album === structuredNode2.album
+      .uniqBy(nodesListFormat, listNode => listNode.album)
+        .map(listNode => ({
+          artist: listNode.artist,
+          album: listNode.album,
+          tracks: nodesListFormat
+            .filter(listNode2 => {
+              return listNode.album === listNode2.album
             })
             .map(track => ({
               title: track.track,
@@ -57,7 +57,7 @@ class S3MusicLibrary {
   }
 
   filterBy(queryObject) {
-    return _.filter(this.store.recordFormat, queryObject)
+    return _.filter(this.store.albumFormat, queryObject)
   }
 
   get artists() {
@@ -69,12 +69,7 @@ class S3MusicLibrary {
   }
 
   get albums() {
-    return _
-      .uniqBy(this.store.recordFormat, recordNode => recordNode.album)
-        .map(uniqRecordNode => ({
-          artist: uniqRecordNode.artist,
-          album: uniqRecordNode.album
-        }))
+    return this.store.albumFormat
   }
 
   get tracks() {

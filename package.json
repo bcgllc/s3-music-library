@@ -1,6 +1,6 @@
 {
   "name": "s3-music-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
     "aws-sdk": "^2.248.1",
     "dotenv": "^5.0.1",
     "lodash": "^4.17.10"
-  }
+  },
+  "devDependencies": {}
 }
