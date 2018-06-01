@@ -11,9 +11,9 @@ const s3MusicLibrary = new S3MusicLibrary(AWS_S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_
 
 const f = s3MusicLibrary.fetchData()
 f.then(() => {
-  // console.log(s3MusicLibrary.structuredData)
-  // console.log(s3MusicLibrary.artists)
-  // console.log(s3MusicLibrary.albums)
-  console.log(s3MusicLibrary.albumsBy("Felt"))
-  // console.log(s3MusicLibrary.tracksOn("Stains On A Decade"))
+  // console.log(s3MusicLibrary.store.structuredFormat)
+  // console.log(s3MusicLibrary.store.recordFormat)
+  // s3MusicLibrary.filterBy({ artist: "Enno Velthuys" })
+  console.log(s3MusicLibrary.tracks)
+
 })

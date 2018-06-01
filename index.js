@@ -9,7 +9,7 @@ class S3MusicLibrary {
     this.AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
     this.AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
     this.s3 = new this.AWS.S3()
-    this.data = {}
+    this.store = {}
   }
 
   async fetchData() {
@@ -18,70 +18,67 @@ class S3MusicLibrary {
       MaxKeys: 2147483647
     }
     const response = await this.s3.listObjectsV2(params).promise()
-    this.parseAndSetData(response)
+    this.initializeStore(response)
   }
 
-  parseAndSetData(response) {
-    this.data.raw = response.Contents.filter(
-      datum => datum.Key.includes(".mp3") || datum.Key.includes(".flac")
-    )
+  initializeStore(response) {
+    this.parseStructuredFormat(response)
+    this.parseRecordFormat()
+  }
 
-    this.data.structured = response.Contents.map(datum => ({
-        url: datum.Key,
-        artist: datum.Key.split("/")[0],
-        album: datum.Key.split("/")[1],
-        track: datum.Key.split("/")[2]
+  parseStructuredFormat(response) {
+    this.store.structuredFormat = response.Contents.map(datum => ({
+      url: datum.Key,
+      artist: datum.Key.split("/")[0],
+      album: datum.Key.split("/")[1],
+      track: datum.Key.split("/")[2]
     })).filter(item => (
       item.url.includes(".mp3") || 
       item.url.includes(".flac")
     ))
-
-    this.data.urls = this.data.raw.map(datum => datum.Key)
-
-    this.data.artists = _.uniq(
-      this.data.raw.map(datum => datum.Key.split("/")[0])
-    )
-
-    this.data.albums = _
-      .uniq(this.data.raw.map(datum => datum.Key.split("/")[1]))
-      .filter(album => album.length > 0)
   }
 
-  get structuredData() {
-    return this.data.structured
+  parseRecordFormat() {
+    const nodesStructuredFormat = this.store.structuredFormat
+    this.store.recordFormat = _
+      .uniqBy(nodesStructuredFormat, structuredNode => structuredNode.album)
+        .map(structuredNode => ({
+          artist: structuredNode.artist,
+          album: structuredNode.album,
+          tracks: nodesStructuredFormat
+            .filter(structuredNode2 => {
+              return structuredNode.album === structuredNode2.album
+            })
+            .map(track => ({
+              title: track.track,
+              url: track.url
+            }))
+        }))
   }
 
-  get urls() {
-    return this.data.urls
+  filterBy(queryObject) {
+    return _.filter(this.store.recordFormat, queryObject)
   }
 
   get artists() {
-    return this.data.artists
+    return _
+      .uniqBy(this.store.recordFormat, recordNode => recordNode.artist)
+        .map(uniqRecordNode => ({
+          artist: uniqRecordNode.artist
+        }))
   }
 
   get albums() {
-    return this.data.albums
+    return _
+      .uniqBy(this.store.recordFormat, recordNode => recordNode.album)
+        .map(uniqRecordNode => ({
+          artist: uniqRecordNode.artist,
+          album: uniqRecordNode.album
+        }))
   }
 
-
-  albumsBy(artist) {
-    return _.uniqBy(this.data.structured, item => item.album)
-      .filter(item => item.artist === artist)
-      .map(item => ({
-        artist: item.artist, 
-        album: item.album,
-        tracks: this.data.structured
-          .filter(datum => datum.album === item.album)
-          .map(track => ({
-            title: track.track,
-            url: track.url
-          }))
-      }))
-  }
-
-  tracksOn(album) {
-    return this.data.structured
-      .filter(item => item.album === album)
+  get tracks() {
+    return this.store.structuredFormat
   }
 
 }
