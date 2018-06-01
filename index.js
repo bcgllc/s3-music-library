@@ -9,7 +9,6 @@ class S3MusicLibrary {
     this.AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
     this.AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
     this.s3 = new this.AWS.S3()
-    this.store = {}
   }
 
   async fetchData() {
@@ -22,12 +21,13 @@ class S3MusicLibrary {
   }
 
   initializeStore(response) {
-    this.parseStructuredFormat(response)
-    this.parseRecordFormat()
+    this.store = {}    
+    this.store.structuredFormat = this.parseStructuredFormat(response)
+    this.store.recordFormat = this.parseRecordFormat()
   }
 
   parseStructuredFormat(response) {
-    this.store.structuredFormat = response.Contents.map(datum => ({
+    return response.Contents.map(datum => ({
       url: datum.Key,
       artist: datum.Key.split("/")[0],
       album: datum.Key.split("/")[1],
@@ -40,7 +40,7 @@ class S3MusicLibrary {
 
   parseRecordFormat() {
     const nodesStructuredFormat = this.store.structuredFormat
-    this.store.recordFormat = _
+    return _
       .uniqBy(nodesStructuredFormat, structuredNode => structuredNode.album)
         .map(structuredNode => ({
           artist: structuredNode.artist,
