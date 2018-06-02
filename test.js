@@ -20,7 +20,7 @@ s3MusicLibrary.fetchData()
     // console.log(s3MusicLibrary.artists)
     // console.log(s3MusicLibrary.albums)
     // console.log(s3MusicLibrary.tracks)  
-    // console.log(s3MusicLibrary.filterBy({ 
-    //   artist: "Enno Velthuys"
-    // }))
+    console.log(s3MusicLibrary.filterBy({ 
+      artist: "Enno Velthuys"
+    }))
 })

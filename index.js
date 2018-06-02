@@ -17,16 +17,16 @@ class S3MusicLibrary {
       MaxKeys: 2147483647
     }
     const response = await this.s3.listObjectsV2(params).promise()
-    this.initializeStore(response)
+    this._initializeStore(response)
   }
 
-  initializeStore(response) {
+  _initializeStore(response) {
     this.store = {}    
-    this.store.listFormat = this.parseListFormat(response)
-    this.store.albumFormat = this.parseAlbumFormat()
+    this.store.listFormat = this._parseListFormat(response)
+    this.store.albumFormat = this._parseAlbumFormat()
   }
 
-  parseListFormat(response) {
+  _parseListFormat(response) {
     return response.Contents.map(datum => ({
       url: datum.Key,
       artist: datum.Key.split("/")[0],
@@ -38,7 +38,7 @@ class S3MusicLibrary {
     ))
   }
 
-  parseAlbumFormat() {
+  _parseAlbumFormat() {
     const nodesListFormat = this.store.listFormat
     return _
       .uniqBy(nodesListFormat, listNode => listNode.album)
