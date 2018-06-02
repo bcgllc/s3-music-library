@@ -62,9 +62,9 @@ class S3MusicLibrary {
 
   get artists() {
     return _
-      .uniqBy(this.store.recordFormat, recordNode => recordNode.artist)
-        .map(uniqRecordNode => ({
-          artist: uniqRecordNode.artist
+      .uniqBy(this.store.albumFormat, albumNode => albumNode.artist)
+        .map(uniqAlbumNode => ({
+          artist: uniqAlbumNode.artist
         }))
   }
 
