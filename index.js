@@ -21,9 +21,9 @@ class S3MusicLibrary {
   }
 
   _initializeStore(response) {
-    this.store = {}    
-    this.store.listFormat = this._parseListFormat(response)
-    this.store.albumFormat = this._parseAlbumFormat()
+    this._store = {}    
+    this._store.listFormat = this._parseListFormat(response)
+    this._store.albumFormat = this._parseAlbumFormat()
   }
 
   _parseListFormat(response) {
@@ -39,7 +39,7 @@ class S3MusicLibrary {
   }
 
   _parseAlbumFormat() {
-    const nodesListFormat = this.store.listFormat
+    const nodesListFormat = this._store.listFormat
     return _
       .uniqBy(nodesListFormat, listNode => listNode.album)
         .map(listNode => ({
@@ -57,23 +57,23 @@ class S3MusicLibrary {
   }
 
   filterBy(queryObject) {
-    return _.filter(this.store.albumFormat, queryObject)
+    return _.filter(this._store.albumFormat, queryObject)
   }
 
   get artists() {
     return _
-      .uniqBy(this.store.albumFormat, albumNode => albumNode.artist)
+      .uniqBy(this._store.albumFormat, albumNode => albumNode.artist)
         .map(uniqAlbumNode => ({
           artist: uniqAlbumNode.artist
         }))
   }
 
   get albums() {
-    return this.store.albumFormat
+    return this._store.albumFormat
   }
 
   get tracks() {
-    return this.store.structuredFormat
+    return this._store.listFormat
   }
 
 }
