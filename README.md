@@ -98,7 +98,7 @@ This returns a list of albums structured as follows:
 }
 ```
 
-In general, it's better to access data in store through the object's getters. These are detailed below.
+In general, it's better to access data in the object's store through its getters. These are detailed below.
 
 ## Getters
 
