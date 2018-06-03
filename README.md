@@ -98,9 +98,11 @@ This returns a list of albums structured as follows:
 }
 ```
 
+In general, it's better to access data in store through the object's getters. These are detailed below.
+
 ## Getters
 
-Note that these aren't method calls. The following are getters that retreive/filter data from `._store.albumFormat`.  
+Note that these aren't method calls. The following are getters that retreive/filter data from the object's store.  
 
 ```
 .artists
@@ -112,10 +114,10 @@ Returns a list of artists in your library.
 .albums
 ```
 
-Returns a list of albums in your library, same as `._store.albumFormat`.
+Returns a list of albums in your library, equivalent to `._store.albumFormat`.
 
 ```
 .tracks
 ```
 
-Returns a list of tracks in your library, same as `._store.listFormat`.
+Returns a list of tracks in your library, equivalent to `._store.listFormat`.
