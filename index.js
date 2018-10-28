@@ -56,8 +56,16 @@ class S3MusicLibrary {
         }))
   }
 
-  filterBy(queryObject) {
+  filter(queryObject) {
     return _.filter(this._store.albumFormat, queryObject)
+  }
+
+  search(key) {
+    return this._store.listFormat
+      .filter(listItem => {
+        return listItem.url.toLowerCase()
+          .includes(key.toLowerCase())
+      })
   }
 
   get artists() {

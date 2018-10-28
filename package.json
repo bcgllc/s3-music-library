@@ -1,7 +1,7 @@
 {
   "name": "s3-music-library",
   "version": "1.0.3",
-  "description": "",
+  "description": "## What is it?",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +13,13 @@
     "dotenv": "^5.0.1",
     "lodash": "^4.17.10"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harwoodjp/s3-music-library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/harwoodjp/s3-music-library/issues"
+  },
+  "homepage": "https://github.com/harwoodjp/s3-music-library#readme"
 }

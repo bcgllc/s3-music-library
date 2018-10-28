@@ -19,7 +19,7 @@ const musicLibrary = new S3MusicLibrary(
 
 musicLibrary.fetchData()
     .then(() => {
-        console.log(musicLibrary.filterBy({
+        console.log(musicLibrary.filter({
             artist: "Artist1"
         }))
     })
@@ -53,17 +53,21 @@ You'll need to fetch data from your S3 bucket before doing anything else. Becaus
 
 `fetchData` calls `_initializeStore`, which, in turn, calls `_parseListFormat` and `_parseAlbumFormat`. These methods populates the  `s3MusicLibrary` object's `store` with your music data in `listFormat` and `albumFormat`. 
 
-### .filterBy(queryObject)
+### .filter(queryObject)
 
-This method call's the lodash `_.find` method on the library instance's `store.albumFormat`. 
+This method call's the lodash `_.find` method on the library instance's `_store.albumFormat`. Its result set only contains exact matches.
 
 Example usage: 
 
 ```
-s3MusicLibrary.filterBy({
+s3MusicLibrary.filter({
   artist: "Artist1"
 })`
 ```
+
+### .search(key)
+
+This method compares a string search key against all URLs in the instance's `_store.listFormat`.
 
 ## Store
 
