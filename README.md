@@ -69,6 +69,10 @@ s3MusicLibrary.filter({
 
 This method compares a string search key against all URLs in the instance's `_store.listFormat`.
 
+```
+s3MusicLibrary.search("artist1")`
+```
+
 ## Store
 
 After the raw data is retrieved from S3, it's parsed and saved in the S3MusicLibrary object's store.
