@@ -105,6 +105,35 @@ This returns a list of albums structured as follows:
     ],
 }
 ```
+### ._store.artistFormat
+
+This returns a list of artists structured as follows: 
+
+```
+{ 
+    artist: "Artist1",
+    albums:[ 
+        {
+            artist: "Artist1"
+            album: "Album1",
+            tracks: [
+                { title: "Track1", url: "Artist1/Album1/Track1.mp3" },
+                { title: "Track2", url: "Artist1/Album1/Track2.mp3" },
+                { title: "Track3", url: "Artist1/Album1/Track3.mp3" },
+            ]
+        },
+        {
+            artist: "Artist1"
+            album: "Album2",
+            tracks: [
+                { title: "Track1", url: "Artist1/Album2/Track1.mp3" },
+                { title: "Track2", url: "Artist1/Album2/Track2.mp3" },
+                { title: "Track3", url: "Artist1/Album2/Track3.mp3" },
+            ]
+        },
+    ]
+}
+```
 
 In general, it's better to access data in the object's store through its getters. These are detailed below.
 

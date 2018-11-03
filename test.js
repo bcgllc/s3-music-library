@@ -15,13 +15,12 @@ const s3MusicLibrary = new S3MusicLibrary(
 
 s3MusicLibrary.fetchData()
   .then(() => {
-    // console.log(s3MusicLibrary.artists)
+    console.log(s3MusicLibrary.artists)
     // console.log(s3MusicLibrary.albums)
     // console.log(s3MusicLibrary.tracks)  
-    console.log(s3MusicLibrary.search("andrew p"))
-    console.log(s3MusicLibrary.filter({
-      artist: "Andrew Pinches",
-      album: "Atmos two"
-    }))
-
+    // console.log(s3MusicLibrary.search("andrew p"))
+    // console.log(s3MusicLibrary.filter({
+    //   artist: "Andrew Pinches",
+    //   album: "Atmos two"
+    // }))
   })

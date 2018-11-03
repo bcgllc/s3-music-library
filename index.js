@@ -24,6 +24,7 @@ class S3MusicLibrary {
     this._store = {}    
     this._store.listFormat = this._parseListFormat(response)
     this._store.albumFormat = this._parseAlbumFormat()
+    this._store.artistFormat = this._parseArtistFormat()
   }
 
   _parseListFormat(response) {
@@ -56,6 +57,18 @@ class S3MusicLibrary {
         }))
   }
 
+  _parseArtistFormat() {
+    const albumFormat = this._store.albumFormat
+    return _
+      .uniqBy(albumFormat, albumNode => albumNode.artist)
+      .map(uniqAlbumNode => ({
+        artist: uniqAlbumNode.artist,
+        albums: this.filter({
+          artist: uniqAlbumNode.artist
+        })
+      }))
+  }
+
   filter(queryObject) {
     return _.filter(this._store.albumFormat, queryObject)
   }
@@ -69,11 +82,7 @@ class S3MusicLibrary {
   }
 
   get artists() {
-    return _
-      .uniqBy(this._store.albumFormat, albumNode => albumNode.artist)
-        .map(uniqAlbumNode => ({
-          artist: uniqAlbumNode.artist
-        }))
+    return this._store.artistFormat
   }
 
   get albums() {
