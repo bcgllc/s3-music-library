@@ -1,6 +1,6 @@
 {
   "name": "s3-music-library",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "API for retrieving music data in an S3 bucket",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.248.1",
+    "aws-sdk": "^2.348.0",
     "dotenv": "^5.0.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {},
   "repository": {
